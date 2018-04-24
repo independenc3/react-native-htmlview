@@ -52,8 +52,8 @@ class HtmlView extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.value !== nextProps.value || this.props.stylesheet !== nextProps.stylesheet || this.props.textComponentProps !== nextProps.textComponentProps) {
-      this.startHtmlRender(nextProps.value, nextProps.stylesheet, nextProps.textComponentProps);
+    if (this.props.value !== nextProps.value || this.props.stylesheet !== nextProps.stylesheet) {
+      this.startHtmlRender(nextProps.value, nextProps.stylesheet);
     }
   }
 
@@ -61,7 +61,7 @@ class HtmlView extends PureComponent {
     this.mounted = false;
   }
 
-  startHtmlRender(value, style, textComponentProps) {
+  startHtmlRender(value, style) {
     const {
       addLineBreaks,
       onLinkPress,
@@ -88,10 +88,6 @@ class HtmlView extends PureComponent {
         opts[key] = this.props[key];
       }
     });
-
-    if (textComponentProps) {
-      opts.textComponentProps = textComponentProps;
-    }
 
     htmlToElement(value, opts, (err, element) => {
       if (err) {

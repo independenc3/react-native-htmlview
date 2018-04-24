@@ -23,17 +23,12 @@ const Img = props => {
     parseInt(props.attribs['data-height'], 10) ||
     0;
 
-  const imgStyle = {
-    width,
-    height,
-  };
-
   const source = {
     uri: props.attribs.src,
     width,
     height,
   };
-  return <AutoSizedImage source={source} style={imgStyle} />;
+  return  <AutoSizedImage source={source} style={props.style} />;
 };
 
 export default function htmlToElement(rawHtml, customOpts = {}, done) {
@@ -86,7 +81,9 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
 
       if (node.type === 'tag') {
         if (node.name === 'img') {
-          return <Img key={index} attribs={node.attribs} />;
+          const style = StyleSheet.flatten(opts.styles[node.name]) || {};
+
+          return <Img key={index} attribs={node.attribs} style={style} />;
         }
 
         let linkPressHandler = null;
@@ -137,9 +134,7 @@ export default function htmlToElement(rawHtml, customOpts = {}, done) {
               {opts.bullet}
             </TextComponent>);
           }
-          if (opts.addLineBreaks && index < list.length - 1) {
-            linebreakAfter = opts.lineBreak;
-          }
+          linebreakAfter = opts.lineBreak;
         }
 
         const {NodeComponent, styles} = opts;

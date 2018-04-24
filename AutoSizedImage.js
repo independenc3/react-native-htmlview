@@ -1,10 +1,7 @@
-import React, {PureComponent} from 'react';
-import {
-  Image,
-  Dimensions,
-} from 'react-native';
+import React, { PureComponent } from 'react';
+import { Image, Dimensions } from 'react-native';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const baseStyle = {
   backgroundColor: 'transparent',
@@ -13,21 +10,22 @@ const baseStyle = {
 export default class AutoSizedImage extends PureComponent {
   constructor(props) {
     super(props);
+
     this.state = {
       // set width 1 is for preventing the warning
       // You must specify a width and height for the image %s
-      width: this.props.style.width || 2,
-      height: this.props.style.height || 1,
+      width: this.props.style.width,
+      height: this.props.style.height,
     };
   }
 
   componentDidMount() {
     //avoid repaint if width/height is given
-    if (this.props.style.width || this.props.style.height) {
+    if (this.props.style.width && this.props.style.height) {
       return;
     }
     Image.getSize(this.props.source.uri, (w, h) => {
-      this.setState({width: w, height: h});
+      this.setState({ width: w, height: h });
     });
   }
 
@@ -42,15 +40,11 @@ export default class AutoSizedImage extends PureComponent {
       baseStyle,
       this.props.style,
       this.state,
-      finalSize
+      finalSize,
     );
-    let source = {};
-    if (!finalSize.width || !finalSize.height) {
-      source = Object.assign(source, this.props.source, this.state);
-    } else {
-      source = Object.assign(source, this.props.source, finalSize);
-    }
 
-    return <Image style={style} source={source} />;
+    return this.state.width && this.state.height ? (
+      <Image style={style} source={this.props.source} />
+    ) : null;
   }
 }
