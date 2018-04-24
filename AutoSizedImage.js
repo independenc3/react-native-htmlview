@@ -16,7 +16,7 @@ export default class AutoSizedImage extends PureComponent {
     this.state = {
       // set width 1 is for preventing the warning
       // You must specify a width and height for the image %s
-      width: this.props.style.width || 1,
+      width: this.props.style.width || 2,
       height: this.props.style.height || 1,
     };
   }
