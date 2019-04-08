@@ -147,7 +147,7 @@ HtmlView.defaultProps = {
   onLinkPress: url => Linking.openURL(url),
   onLinkLongPress: null,
   onError: console.error.bind(console),
-  RootComponent: View,
+  RootComponent: element =>  <View {...element} />,
 };
 
 export default HtmlView;
